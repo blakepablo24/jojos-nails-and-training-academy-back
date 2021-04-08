@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', 'App\Http\Controllers\UserController@login');
 Route::get('/logout', 'App\Http\Controllers\UserController@logout');
 
+Route::get('/get-front-page-images', 'App\Http\Controllers\FrontPageImagesController@getFrontPageImages');
+
 Route::get('/all-training-courses', 'App\Http\Controllers\TrainingCourseController@getAllTrainingCourses');
 Route::get('/single-training-course/{id}', 'App\Http\Controllers\TrainingCourseController@getSingleTrainingCourse');
 

@@ -8,6 +8,7 @@ use App\Models\TrainingCourse;
 use App\Models\CourseCurriculum;
 use App\Models\SalonTreatment;
 use App\Models\SingleSalonTreatment;
+use App\Models\FrontPageImages;
 
 class DatabaseSeeder extends Seeder
 {
@@ -920,5 +921,26 @@ class DatabaseSeeder extends Seeder
             'price' => 25,
             'description' => 'Blah, Blah, Blah. Joanne to fill this in'
         ]);
+        
+        FrontPageImages::create([
+            'image' => '01.jpg',
+        ]);
+
+        FrontPageImages::create([
+            'image' => '02.jpg',
+        ]);
+
+        FrontPageImages::create([
+            'image' => '03.jpg',
+        ]);
+
+        FrontPageImages::create([
+            'image' => '04.jpg',
+        ]);
+
+        FrontPageImages::create([
+            'image' => '05.jpg',
+        ]);
+
     }
 }

@@ -14,6 +14,7 @@ use App\Http\Requests\StoreNewTrainingCourse;
 use App\Http\Requests\StoreNewCurriculum;
 use App\Http\Requests\StoreEditedSalonTreatment;
 use App\Http\Requests\StoreEditedTrainingCourse;
+use App\Models\FrontPageImages;
 
 class AdminController extends Controller
 {
@@ -21,10 +22,12 @@ class AdminController extends Controller
 
         $treatments = SingleSalonTreatment::all();
         $courses = TrainingCourse::all();
+        $frontPageImages = FrontPageImages::all();
 
         return response()->json([
             'treatments' => count($treatments),
-            'courses' => count($courses)
+            'courses' => count($courses),
+            'frontPageImages' => count($frontPageImages)
             ]);
     }
 
