@@ -14,6 +14,7 @@ use App\Http\Requests\StoreNewTrainingCourse;
 use App\Http\Requests\StoreNewCurriculum;
 use App\Http\Requests\StoreEditedSalonTreatment;
 use App\Http\Requests\StoreEditedTrainingCourse;
+use App\Http\Requests\StoreNewFrontPageImage;
 use App\Models\FrontPageImages;
 
 class AdminController extends Controller
@@ -210,6 +211,18 @@ class AdminController extends Controller
         $trainingCourse->save();
 
         return response()->json(['trainingCourse' => $trainingCourse]);
+    }
+
+    public function deleteFrontPageImage($id){
+        $frontPageImage = FrontPageImages::find($id);
+        Storage::delete('/public/images/front-page-images/landing-page-images/'.$frontPageImage->image);
+        $frontPageImage->delete();
+    }
+
+    public function addNewFrontPageImage(StoreNewFrontPageImage $request){
+        $frontPageImage = new FrontPageImages;
+        $frontPageImage->image = $this->imageUpdate($request->newImage, '/images/front-page-images/landing-page-images/');
+        $frontPageImage->save();
     }
 
     private function imageUpdate($image, $fileLocation){

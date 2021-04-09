@@ -45,3 +45,6 @@ Route::middleware('auth:sanctum')->get('/get-training-course-to-edit/{id}', 'App
 Route::middleware('auth:sanctum')->post('/update-training-course', 'App\Http\Controllers\Auth\AdminController@updateTrainingCourse');
 Route::middleware('auth:sanctum')->delete('/delete-salon-treatment-image/{id}', 'App\Http\Controllers\Auth\AdminController@deleteSalonTreatmentImage');
 Route::middleware('auth:sanctum')->delete('/delete-training-course-image/{id}', 'App\Http\Controllers\Auth\AdminController@deleteTrainingCourseImage');
+Route::middleware('auth:sanctum')->delete('/delete-training-course-image/{id}', 'App\Http\Controllers\Auth\AdminController@deleteTrainingCourseImage');
+Route::middleware('auth:sanctum')->delete('/delete-front-page-image/{id}', 'App\Http\Controllers\Auth\AdminController@deleteFrontPageImage');
+Route::middleware('auth:sanctum')->post('/add-new-front-page-image', 'App\Http\Controllers\Auth\AdminController@addNewFrontPageImage');
