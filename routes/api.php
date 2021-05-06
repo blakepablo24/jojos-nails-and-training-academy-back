@@ -31,6 +31,14 @@ Route::get('/all-salon-treatments', 'App\Http\Controllers\SalonTreatmentControll
 Route::get('/salon-treatments-sub-cat/{id}', 'App\Http\Controllers\SalonTreatmentController@getSubCatSalonTreatments');
 Route::get('/single-salon-treatment/{id}', 'App\Http\Controllers\SalonTreatmentController@getSingletSalonTreatment');
 
+Route::get('/single-salon-treatment/{id}', 'App\Http\Controllers\SalonTreatmentController@getSingletSalonTreatment');
+Route::post('/new-booking-enquiry', 'App\Http\Controllers\BookingEnquiryController@newBookingEnquiry');
+
+Route::get('preview-emails', function () {
+    $message = (new \App\Notifications\Order\NewOrderNotification(\App\Order::first()))->toMail('test@test.com');
+    return $message->render();
+});
+
 // Must be logged in to access to these routes
 Route::middleware('auth:sanctum')->get('/admin-landing-page', 'App\Http\Controllers\Auth\AdminController@adminLandingPage');
 Route::middleware('auth:sanctum')->delete('/delete-single-salon-treatment/{id}', 'App\Http\Controllers\Auth\AdminController@deleteSalonTreatment');
