@@ -9,8 +9,8 @@ class BookingEnquiryController extends Controller
 {
     public function newBookingEnquiry(StoreNewCustomerBookingEnquiry $request){
 
-        Mail::to("blakepablo24@gmail.com")->queue(new NewBookingEnquiry($request));
+        Mail::to("blakepablo24@gmail.com")->send(new NewBookingEnquiry($request));
 
-        return response()->json($request);
+        // return new NewBookingEnquiry($request);
     }
 }

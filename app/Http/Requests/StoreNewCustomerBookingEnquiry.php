@@ -25,13 +25,13 @@ class StoreNewCustomerBookingEnquiry extends FormRequest
     public function rules()
     {
         return [
-            'itemsinBasket' => 'required|array',
-            'treatmentsStartdate' => 'string',
-            'trainingCourseStartdate' => 'string',
+            'itemsInBasket' => 'required|array',
+            'treatmentsStartdate' => 'nullable|string',
+            'trainingCourseStartdate' => 'nullable|string',
             'name' => 'required|string',
             'email' => 'required|email',
             'number' => 'required|string',
-            'time' => 'string'
+            'time' => 'nullable|string'
         ];
     }
 
