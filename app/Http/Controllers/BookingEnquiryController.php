@@ -10,7 +10,8 @@ class BookingEnquiryController extends Controller
     public function newBookingEnquiry(StoreNewCustomerBookingEnquiry $request){
 
         Mail::to("blakepablo24@gmail.com")->send(new NewBookingEnquiry($request));
-
         // return new NewBookingEnquiry($request);
+
+        // return $request;
     }
 }

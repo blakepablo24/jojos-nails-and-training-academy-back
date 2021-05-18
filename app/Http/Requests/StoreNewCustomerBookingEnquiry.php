@@ -31,7 +31,10 @@ class StoreNewCustomerBookingEnquiry extends FormRequest
             'name' => 'required|string',
             'email' => 'required|email',
             'number' => 'required|string',
-            'time' => 'nullable|string'
+            'time' => 'nullable|string',
+            'totalCost' => 'required|integer',
+            'TC' => 'boolean|required',
+            'ST' => 'boolean|required'
         ];
     }
 
