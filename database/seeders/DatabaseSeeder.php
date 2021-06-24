@@ -9,6 +9,7 @@ use App\Models\CourseCurriculum;
 use App\Models\SalonTreatment;
 use App\Models\SingleSalonTreatment;
 use App\Models\FrontPageImages;
+use App\Models\Enquires;
 
 class DatabaseSeeder extends Seeder
 {
@@ -942,5 +943,19 @@ class DatabaseSeeder extends Seeder
             'image' => '05.jpg',
         ]);
 
+        Enquires::create([
+            'type' => "ST",
+            'enquires' => 0
+        ]);
+
+        Enquires::create([
+            'type' => "TC",
+            'enquires' => 0
+        ]);
+
+        Enquires::create([
+            'type' => "Vouchers",
+            'enquires' => 0
+        ]);
     }
 }

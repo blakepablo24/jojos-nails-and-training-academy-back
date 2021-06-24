@@ -8,10 +8,8 @@ use App\Http\Requests\StoreNewCustomerBookingEnquiry;
 class BookingEnquiryController extends Controller
 {
     public function newBookingEnquiry(StoreNewCustomerBookingEnquiry $request){
+        // Mail::to("new-booking-enquiry@jojosnailandbeautytrainingacademy.paulrobsondev.co.uk")->send(new NewBookingEnquiry($request));
 
-        Mail::to("new-booking-enquiry@jojosnailandbeautytrainingacademy.paulrobsondev.co.uk")->send(new NewBookingEnquiry($request));
-        // return new NewBookingEnquiry($request);
-
-        // return $request;
+        return $request;
     }
 }

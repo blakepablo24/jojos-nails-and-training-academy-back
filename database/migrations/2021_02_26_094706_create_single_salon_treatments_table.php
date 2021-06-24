@@ -22,6 +22,7 @@ class CreateSingleSalonTreatmentsTable extends Migration
             $table->decimal('price');
             $table->text('description');
             $table->text('image');
+            $table->integer('enquires')->default(0);
             $table->timestamps();
         });
     }

@@ -23,6 +23,7 @@ class CreateTrainingCoursesTable extends Migration
             $table->decimal('price');
             $table->text('extras')->default("");
             $table->text('image');
+            $table->integer('enquires')->default(0);
             $table->timestamps();
         });
     }

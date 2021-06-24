@@ -16,6 +16,7 @@ use App\Http\Requests\StoreEditedSalonTreatment;
 use App\Http\Requests\StoreEditedTrainingCourse;
 use App\Http\Requests\StoreNewFrontPageImage;
 use App\Models\FrontPageImages;
+use App\Models\Enquires;
 
 class AdminController extends Controller
 {
@@ -24,11 +25,17 @@ class AdminController extends Controller
         $treatments = SingleSalonTreatment::all();
         $courses = TrainingCourse::all();
         $frontPageImages = FrontPageImages::all();
+        $STEnquires = Enquires::find(1);
+        $TCEnquires = Enquires::find(2);
+        $vouchers = Enquires::find(3);
 
         return response()->json([
             'treatments' => count($treatments),
             'courses' => count($courses),
-            'frontPageImages' => count($frontPageImages)
+            'frontPageImages' => count($frontPageImages),
+            'STEnquires' => $STEnquires->enquires,
+            'TCEnquires' => $TCEnquires->enquires,
+            'vouchers' => $vouchers->enquires
             ]);
     }
 
