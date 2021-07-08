@@ -30,7 +30,7 @@ class StoreEditedTrainingCourse extends FormRequest
             'price' => 'required|numeric|between:0,999.99',
             'duration' => 'required|string',
             'teacher_student_ratio' => 'required|string',
-            'extras' => 'string',
+            'extras' => 'nullable|string',
             'newImage' => 'image|mimes:jpeg,jpg,png|max:5000'
         ];
     }
