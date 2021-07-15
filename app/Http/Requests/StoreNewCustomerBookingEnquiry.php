@@ -33,8 +33,9 @@ class StoreNewCustomerBookingEnquiry extends FormRequest
             'number' => 'required|string',
             'time' => 'nullable|string',
             'totalCost' => 'required|integer',
-            'TC' => 'boolean|required',
-            'ST' => 'boolean|required'
+            'TC' => 'boolean',
+            'ST' => 'boolean',
+            'gift_voucher' => 'boolean'
         ];
     }
 

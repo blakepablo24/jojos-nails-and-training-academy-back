@@ -9,12 +9,20 @@
 <h3 style="color: #315b96;">Hi Joanna,</h3>
 <h3 style="color: #315b96;">
     Here is your latest
-        @if ($request->TC && $request->ST)
-            Training Course and Salon Treatment
+        @if ($request->TC && $request->ST && $request->gift_voucher)
+            Training Course, Salon Treatment, Gift Voucher
+        @elseif ($request->TC && $request->ST)
+            Training Course, Salon Treatment
+        @elseif ($request->TC && $request->gift_voucher)
+            Training Course, Gift Voucher
+        @elseif ($request->ST && $request->gift_voucher)
+            Salon Treatment, Gift Voucher
         @elseif ($request->ST)
             Salon Treatment
         @elseif ($request->TC)
             Training Course
+        @elseif ($request->gift_voucher)
+            Gift Voucher
         @endif
     enquiry:
 </h3>
@@ -46,6 +54,27 @@
             <td colspan='2'>Email:</td>
             <td colspan='2'>{{$request->email}}</td>
         </tr>
+        @if ($request->gift_voucher)
+            <tr style="margin-top: 50px">
+                <th colspan='4'>Gift Vouchers in Basket</th>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <th>Title</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            @foreach ($request['itemsInBasket'] as $item)
+                @if ($item['type'] === "gift_voucher")     
+                    <tr>
+                        <td style="text-align: center;">{{$item['subCategoryTitle']}}</td>
+                        <td style="text-align: center;">{{$item['title']}}</td>
+                        <td style="text-align: center;">{{$item['quantity']}}</p>
+                        <td style="text-align: center;">£{{$item['price']}}</td>
+                    </tr>
+                @endif
+            @endforeach
+        @endif
         @if ($request->TC)
             <tr style="margin-top: 50px">
                 <th colspan='4'>Training Courses in Basket</th>
