@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEnquiresTable extends Migration
+class CreateEnquiryDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateEnquiresTable extends Migration
      */
     public function up()
     {
-        Schema::create('enquires', function (Blueprint $table) {
+        Schema::create('enquiry_details', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->integer('enquires')->default(0);
+            $table->string('name');
+            $table->string('email');
+            $table->string('number');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateEnquiresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('enquires');
+        Schema::dropIfExists('enquiry_details');
     }
 }

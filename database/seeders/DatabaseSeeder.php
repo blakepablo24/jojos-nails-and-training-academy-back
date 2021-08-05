@@ -942,20 +942,5 @@ class DatabaseSeeder extends Seeder
         FrontPageImages::create([
             'image' => '05.jpg',
         ]);
-
-        Enquires::create([
-            'type' => "ST",
-            'enquires' => 0
-        ]);
-
-        Enquires::create([
-            'type' => "TC",
-            'enquires' => 0
-        ]);
-
-        Enquires::create([
-            'type' => "Vouchers",
-            'enquires' => 0
-        ]);
     }
 }
