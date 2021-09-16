@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\NewBookingEnquiry;
 use App\Http\Requests\StoreNewCustomerBookingEnquiry;
 use App\Models\GiftVouchers;
-use App\Models\Stats;
 use App\Models\EnquiryDetails;
 
 class BookingEnquiryController extends Controller

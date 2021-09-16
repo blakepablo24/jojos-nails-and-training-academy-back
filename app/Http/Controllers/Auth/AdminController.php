@@ -15,8 +15,13 @@ use App\Http\Requests\StoreNewCurriculum;
 use App\Http\Requests\StoreEditedSalonTreatment;
 use App\Http\Requests\StoreEditedTrainingCourse;
 use App\Http\Requests\StoreNewFrontPageImage;
+use App\Http\Requests\StoreUpdatedSalonTreatmentCategories;
+use App\Http\Requests\StoreEditedSalonTreatmentCategoryImage;
 use App\Models\FrontPageImages;
 use App\Models\Enquires;
+use App\Models\GiftVouchers;
+use App\Models\EnquiryDetails;
+
 
 class AdminController extends Controller
 {
@@ -25,17 +30,31 @@ class AdminController extends Controller
         $treatments = SingleSalonTreatment::all();
         $courses = TrainingCourse::all();
         $frontPageImages = FrontPageImages::all();
-        $STEnquires = Enquires::find(1);
-        $TCEnquires = Enquires::find(2);
-        $vouchers = Enquires::find(3);
+        $STEnquires = SingleSalonTreatment::where('enquires', '>', 0)->get();
+        $stArray = [];
+        foreach ($STEnquires as $enquiry) {
+            array_push($stArray, $enquiry->enquires);
+        }
+        $mostPopularTreatment = SingleSalonTreatment::with('category')->orderBy('enquires', 'DESC')->where('enquires', '>', 0)->first();
+
+        $TCEnquires = TrainingCourse::where('enquires', '>', 0)->get();
+        $tcArray = [];
+        foreach ($TCEnquires as $enquiry) {
+            array_push($tcArray, $enquiry->enquires);
+            
+        }
+        $mostPopularCourse = TrainingCourse::orderBy('enquires', 'DESC')->where('enquires', '>', 0)->first();
+        $vouchers = GiftVouchers::all();
 
         return response()->json([
             'treatments' => count($treatments),
             'courses' => count($courses),
             'frontPageImages' => count($frontPageImages),
-            'STEnquires' => $STEnquires->enquires,
-            'TCEnquires' => $TCEnquires->enquires,
-            'vouchers' => $vouchers->enquires
+            'STEnquires' => array_sum($stArray),
+            'TCEnquires' => array_sum($tcArray),
+            'vouchers' => count($vouchers),
+            'mostPopularTreatment' => $mostPopularTreatment,
+            'mostPopularCourse' => $mostPopularCourse
             ]);
     }
 
@@ -83,14 +102,60 @@ class AdminController extends Controller
         $newSalonTreatment->description = $request->description;
 
         if($request->newImage){
-
             $newSalonTreatment->image = $this->imageUpdate($request->newImage, '/images/salon-treatment-images/single-salon-treatment-images/');
-            $newSalonTreatment->save();
-
-            return response()->json(['newSalonTreatment' => $newSalonTreatment]);
+        } else {
+            $newSalonTreatment->image = "";
         }
 
+        $newSalonTreatment->save();
+
         return response()->json(['newSalonTreatment' => $newSalonTreatment]);
+    }
+
+    public function addEditSalonTreatment(StoreUpdatedSalonTreatmentCategories $request) {
+        $firstMessage = "";
+        $secondMessage = "";
+        foreach ($request->categoryItems as $category) {
+            if($category["id"] != ""){
+                $salonTreatmentCategory = SalonTreatment::find($category["id"]);
+
+                if($category["title"] != $salonTreatmentCategory->title){
+                    $salonTreatmentCategory->title = $category["title"];
+                    $salonTreatmentCategory->save();
+                }
+                $firstMessage = "edited";
+            } else {
+                $newSalonTreatmentCategory = new SalonTreatment;
+                $newSalonTreatmentCategory->title = $category["title"];
+                $newSalonTreatmentCategory->image = $category["image"];
+                $newSalonTreatmentCategory->save();
+
+                $secondMessage = "new";
+            }
+        }
+
+        return $firstMessage.$secondMessage;
+    }
+
+    public function updateSalonTreatmentCategoryImage(StoreEditedSalonTreatmentCategoryImage $request){
+        $salonTreatmentCategory = SalonTreatment::find($request->id);
+        if($salonTreatmentCategory->image != "default"){
+            Storage::delete('/public/images/salon-treatment-images/'.$salonTreatmentCategory->image);
+        }
+        $salonTreatmentCategory->image = $this->imageUpdate($request->newImage, '/images/salon-treatment-images/');
+        $salonTreatmentCategory->save();
+
+        return $salonTreatmentCategory;
+
+    }
+
+    public function deleteSalonTreatmentCategory($id){
+        $salonTreatmentCategory = SalonTreatment::find($id);
+        if($salonTreatmentCategory->image != "default"){
+            Storage::delete('/public/images/salon-treatment-images/'.$salonTreatmentCategory->image);
+        }
+        $salonTreatmentCategory->image = "";
+        $salonTreatmentCategory->delete();
     }
 
     public function newTrainingCourse(StoreNewTrainingCourse $request) {

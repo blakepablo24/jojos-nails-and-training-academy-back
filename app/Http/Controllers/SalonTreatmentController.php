@@ -10,7 +10,7 @@ class SalonTreatmentController extends Controller
 {
     public function getAllSalonTreatments()
     {
-        $salonTreatments = SalonTreatment::all();
+        $salonTreatments = SalonTreatment::with('singleSalonTreatment')->get();
 
         return response()->json($salonTreatments);
     }
