@@ -112,7 +112,7 @@ class AdminController extends Controller
         return response()->json(['newSalonTreatment' => $newSalonTreatment]);
     }
 
-    public function addEditSalonTreatment(StoreUpdatedSalonTreatmentCategories $request) {
+    public function addEditSalonTreatmentCategory(StoreUpdatedSalonTreatmentCategories $request) {
         $firstMessage = "";
         $secondMessage = "";
         foreach ($request->categoryItems as $category) {
