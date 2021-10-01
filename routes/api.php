@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->delete('/delete-single-training-course/{id}',
 Route::middleware('auth:sanctum')->get('/get-salon-treatment-categories', 'App\Http\Controllers\Auth\AdminController@getSalonTreatmentCategories');
 Route::middleware('auth:sanctum')->post('/new-salon-treatment', 'App\Http\Controllers\Auth\AdminController@newSalonTreatment');
 Route::middleware('auth:sanctum')->post('/add-edit-salon-treatment-category', 'App\Http\Controllers\Auth\AdminController@addEditSalonTreatmentCategory');
+Route::middleware('auth:sanctum')->get('/get-all-gift-vouchers', 'App\Http\Controllers\Auth\AdminController@getAllGiftVouchers');
 Route::middleware('auth:sanctum')->delete('/delete-salon-treatment-category/{id}', 'App\Http\Controllers\Auth\AdminController@deleteSalonTreatmentCategory');
 Route::middleware('auth:sanctum')->post('/new-training-course', 'App\Http\Controllers\Auth\AdminController@newTrainingCourse');
 Route::middleware('auth:sanctum')->post('/add-new-curriculum/{id}', 'App\Http\Controllers\Auth\AdminController@addNewCurriculum');

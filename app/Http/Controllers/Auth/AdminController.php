@@ -297,6 +297,20 @@ class AdminController extends Controller
         $frontPageImage->save();
     }
 
+    public function getAllGiftVouchers(){
+
+        $pendingGiftVouchers = GiftVouchers::where('pending', true)->get();
+        $unRedeemedGiftVouchers = GiftVouchers::where('pending', false)->where('redeemed', false)->get();
+        $redeemedGiftVouchers = GiftVouchers::where('pending', false)->where('redeemed', true)->get();
+
+
+        return response()->json([
+            'pending' => $pendingGiftVouchers,
+            'unRedeemed' => $unRedeemedGiftVouchers,
+            'redeemed' => $redeemedGiftVouchers
+        ]);
+    }
+
     private function imageUpdate($image, $fileLocation){
             \Tinify\setKey("gpYyPbcWHr93Cjtx9rm87xV2pMDrpch6");
         
