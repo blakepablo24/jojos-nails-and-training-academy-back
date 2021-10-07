@@ -42,5 +42,7 @@ Route::middleware('auth:sanctum')->post('/update-training-course', 'App\Http\Con
 Route::middleware('auth:sanctum')->delete('/delete-salon-treatment-image/{id}', 'App\Http\Controllers\Auth\AdminController@deleteSalonTreatmentImage');
 Route::middleware('auth:sanctum')->delete('/delete-training-course-image/{id}', 'App\Http\Controllers\Auth\AdminController@deleteTrainingCourseImage');
 Route::middleware('auth:sanctum')->delete('/delete-training-course-image/{id}', 'App\Http\Controllers\Auth\AdminController@deleteTrainingCourseImage');
+Route::middleware('auth:sanctum')->delete('/delete-pending-gift-voucher/{id}', 'App\Http\Controllers\Auth\AdminController@deletePendingGiftVoucher');
+Route::middleware('auth:sanctum')->delete('/approve-pending-gift-voucher/{id}', 'App\Http\Controllers\Auth\AdminController@approvePendingGiftVoucher');
 Route::middleware('auth:sanctum')->delete('/delete-front-page-image/{id}', 'App\Http\Controllers\Auth\AdminController@deleteFrontPageImage');
 Route::middleware('auth:sanctum')->post('/add-new-front-page-image', 'App\Http\Controllers\Auth\AdminController@addNewFrontPageImage');

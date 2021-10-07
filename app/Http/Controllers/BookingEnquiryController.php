@@ -29,17 +29,20 @@ class BookingEnquiryController extends Controller
                 $gv->message = $item["title"];
                 $gv->voucher_code = $pass;
                 $gv->value = $item["price"];
+                $gv->name = $request->name;
+                $gv->email = $request->email;
+                $gv->number = $request->number;
                 $gv->save();
             }
         }
 
-                $enquiry = new EnquiryDetails;
-                $enquiry->name = $request->name;
-                $enquiry->email = $request->email;
-                $enquiry->number = $request->number;
-                $enquiry->save();
+        $enquiry = new EnquiryDetails;
+        $enquiry->name = $request->name;
+        $enquiry->email = $request->email;
+        $enquiry->number = $request->number;
+        $enquiry->save();
 
-        // Mail::to("new-booking-enquiry@jojosnailandbeautytrainingacademy.paulrobsondev.co.uk")->send(new NewBookingEnquiry($request));
+        Mail::to("new-booking-enquiry@jojosnailandbeautytrainingacademy.paulrobsondev.co.uk")->send(new NewBookingEnquiry($request));
 
         return response()->json($request);
     }

@@ -21,6 +21,8 @@ use App\Models\FrontPageImages;
 use App\Models\Enquires;
 use App\Models\GiftVouchers;
 use App\Models\EnquiryDetails;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ApprovedVoucher;
 
 
 class AdminController extends Controller
@@ -305,10 +307,23 @@ class AdminController extends Controller
 
 
         return response()->json([
-            'pending' => $pendingGiftVouchers,
-            'unRedeemed' => $unRedeemedGiftVouchers,
-            'redeemed' => $redeemedGiftVouchers
+            'pending' => ['vouchers' => $pendingGiftVouchers, 'title' => 'pending'],
+            'unredeemed' => ['vouchers' => $unRedeemedGiftVouchers, 'title' => 'unredeemed'],
+            'redeemed' => ['vouchers' => $redeemedGiftVouchers, 'title' => 'redeemed']
         ]);
+    }
+
+    public function deletePendingGiftVoucher($id) {
+        $pendingGiftVoucher = GiftVouchers::find($id);
+        $pendingGiftVoucher->delete();
+    }
+
+    public function approvePendingGiftVoucher($id) {
+        $pendingGiftVoucher = GiftVouchers::find($id);
+        $pendingGiftVoucher->pending = false;
+        $pendingGiftVoucher->save();
+
+        // Mail::to($pendingGiftVoucher['email'])->send(new ApprovedVoucher($pendingGiftVoucher));
     }
 
     private function imageUpdate($image, $fileLocation){
