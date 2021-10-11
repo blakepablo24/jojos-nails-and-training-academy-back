@@ -23,6 +23,7 @@ use App\Models\GiftVouchers;
 use App\Models\EnquiryDetails;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApprovedVoucher;
+use PDF;
 
 
 class AdminController extends Controller
@@ -323,7 +324,10 @@ class AdminController extends Controller
         $pendingGiftVoucher->pending = false;
         $pendingGiftVoucher->save();
 
-        // Mail::to($pendingGiftVoucher['email'])->send(new ApprovedVoucher($pendingGiftVoucher));
+        $pdf = PDF::loadView('approved-voucher-to-pdf', $pendingGiftVoucher)->setPaper('a4', 'landscape');
+        Storage::put('public/vouchers/'.$pendingGiftVoucher->id.'.pdf', $pdf->output());
+
+        Mail::to($pendingGiftVoucher['email'])->send(new ApprovedVoucher($pendingGiftVoucher));
     }
 
     private function imageUpdate($image, $fileLocation){

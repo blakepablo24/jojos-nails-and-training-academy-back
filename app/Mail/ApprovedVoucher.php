@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use PDF;
 
 class ApprovedVoucher extends Mailable
 {
@@ -22,6 +23,8 @@ class ApprovedVoucher extends Mailable
     public function __construct($request)
     {
         $this->request = $request;
+        $this->imageToEmbed = storage_path('public/images/front-page-images/jojos-nails-logo-drkr1.png');
+        $this->voucherPdf = '/public/vouchers/'.$request->id.'.pdf';
     }
 
     /**
@@ -31,9 +34,9 @@ class ApprovedVoucher extends Mailable
      */
     public function build()
     {
-        return $this->from("no-reply@jojosnailandbeautytrainingacademy.paulrobsondev.co.uk")
-                    ->replyTo($this->request['email'], $this->request['name'])
+        return $this->from("new-booking-enquiry@jojosnailandbeautytrainingacademy.paulrobsondev.co.uk")
                     ->subject('Your JOJOS Voucher')
-                    ->view('emails.approved-voucher');
+                    ->view('emails.approved-voucher')
+                    ->attachFromStorage($this->voucherPdf);
     }
 }

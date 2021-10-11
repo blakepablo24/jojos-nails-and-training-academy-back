@@ -1,22 +1,27 @@
 <html>
 <body style="
     background: whitesmoke;
-    color: #315b96;
+    color: #a3805a;
     width: 100%;
     padding: 20px 5px;
     font-size: 1.5rem;
 ">
-<h3 style="color: #315b96;">Hi {{$request->name}},</h3>
-<h3 style="color: #315b96;">
-    Thank you for purchasing a voucher from JOJO's.
+
+
+<img src="{{ $message->embed((storage_path('/app/public/images/front-page-images/jojos-nails-logo-drkr1.png'))) }}" width="150px" height="150px">
+<br>
+<h3>Hi {{$request->name}},</h3>
+<h3>
+    Thank you for your purchase. Voucher details are below:
 </h3>
 
-<p>Please find attached your voucher</p>
-
-<p>{{$request->from}}</p>
-<p>{{$request->to}}</p>
-<p>{{$request->message}}</p>
-<p>{{$request->value}}</p>
+<div style="
+    display: grid;
+    place-items: center start;
+    padding: 20px 5px;
+">
+    <p>Please find your voucher for the value of £{{$request->value}} attached to this email</p>
+</div>
 
 </body>
 </html>
