@@ -8,6 +8,7 @@ use App\Models\TrainingCourse;
 use App\Models\SingleSalonTreatment;
 use App\Models\SalonTreatment;
 use App\Models\CourseCurriculum;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreNewSalonTreatment;
 use App\Http\Requests\StoreNewTrainingCourse;
@@ -17,6 +18,7 @@ use App\Http\Requests\StoreEditedTrainingCourse;
 use App\Http\Requests\StoreNewFrontPageImage;
 use App\Http\Requests\StoreUpdatedSalonTreatmentCategories;
 use App\Http\Requests\StoreEditedSalonTreatmentCategoryImage;
+use App\Http\Requests\Auth\StoreChangedPassword;
 use App\Models\FrontPageImages;
 use App\Models\Enquires;
 use App\Models\GiftVouchers;
@@ -24,6 +26,7 @@ use App\Models\EnquiryDetails;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApprovedVoucher;
 use PDF;
+use Illuminate\Support\Facades\Hash;
 
 
 class AdminController extends Controller
@@ -59,6 +62,19 @@ class AdminController extends Controller
             'mostPopularTreatment' => $mostPopularTreatment,
             'mostPopularCourse' => $mostPopularCourse
             ]);
+    }
+
+    public function adminChangePassword(StoreChangedPassword $request){
+
+        $user = User::find($request->id);
+
+        if (Hash::check($request->current, $user->password)) {
+            $user->password = bcrypt($request->new);
+            $user->save();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function deleteSalonTreatment($id){
