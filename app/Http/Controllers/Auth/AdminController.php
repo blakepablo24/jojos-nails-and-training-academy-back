@@ -313,6 +313,14 @@ class AdminController extends Controller
     public function addNewFrontPageImage(StoreNewFrontPageImage $request){
         $frontPageImage = new FrontPageImages;
         $frontPageImage->image = $this->imageUpdate($request->newImage, '/images/front-page-images/landing-page-images/');
+        $data = getimagesize($request->newImage);
+        $width = $data[0];
+        $height = $data[1];
+        if($width > $height){
+            $frontPageImage->orientation = "landscape";
+        } else {
+            $frontPageImage->orientation = "portrait";
+        }
         $frontPageImage->save();
     }
 

@@ -8,9 +8,15 @@ class FrontPageImagesController extends Controller
 {
     public function getFrontPageImages(){
 
-        $frontPageImages = FrontPageImages::all();
+        $allFrontPageImages = FrontPageImages::all();
+        $frontPageImages = FrontPageImages::where('orientation', 'portrait')->get();
+        $largeFrontPageImages = FrontPageImages::where('orientation', 'landscape')->get();
 
-        return response()->json(['db_images' => $frontPageImages]);
+        return response()->json([
+            'all_db_images' => $allFrontPageImages,
+            'db_images' => $frontPageImages,
+            'large_db_images' => $largeFrontPageImages
+        ]);
 
     }
 }
