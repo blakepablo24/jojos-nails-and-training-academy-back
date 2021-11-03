@@ -28,7 +28,7 @@ class StoreEditedSalonTreatment extends FormRequest
             'id' => 'required|integer',
             'category' => 'required|integer',
             'title' => 'required|string',
-            'price' => 'required|numeric|between:0,99.99',
+            'price' => 'required|numeric|between:0,999.99',
             'duration' => 'required|integer',
             'description' => 'required|string',
             'newImage' => 'image|mimes:jpeg,jpg,png|max:5000'

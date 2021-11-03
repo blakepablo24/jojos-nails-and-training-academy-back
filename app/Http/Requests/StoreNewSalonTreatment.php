@@ -27,7 +27,7 @@ class StoreNewSalonTreatment extends FormRequest
         return [
             'category' => 'required|integer',
             'title' => 'required|string',
-            'price' => 'required|integer',
+            'price' => 'required|numeric|between:0,999.99',
             'duration' => 'required|integer',
             'description' => 'required|string',
             'newImage' => 'image|mimes:jpeg,jpg,png|max:5000'
