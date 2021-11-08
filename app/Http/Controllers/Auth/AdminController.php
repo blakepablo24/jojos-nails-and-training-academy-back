@@ -280,7 +280,6 @@ class AdminController extends Controller
         } else {
             $trainingCourse->end_time = "4pm";
         }
-
         if($request->newImage){
             if($trainingCourse->image){
                 Storage::delete('/public/images/training-course-images/'.$trainingCourse->image);
@@ -289,7 +288,7 @@ class AdminController extends Controller
             $trainingCourse->save();
             return response()->json(['trainingCourse' => $trainingCourse]);
         }
-
+        $trainingCourse->extras = $request->extras;
         $trainingCourse->save();
         return response()->json(['trainingCourse' => $trainingCourse]);
     }
