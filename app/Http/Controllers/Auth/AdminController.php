@@ -235,7 +235,6 @@ class AdminController extends Controller
         $salonTreatment->price = $request->price;
         $salonTreatment->duration = $request->duration;
         $salonTreatment->description = $request->description;
-
         if($request->newImage){
 
             if($salonTreatment->image){
@@ -246,6 +245,11 @@ class AdminController extends Controller
             $salonTreatment->save();
 
             return response()->json(['salonTreatment' => $salonTreatment]);
+        }
+        if($this->checkIfImageisWebp($salonTreatment->image, '/images/salon-treatment-images/single-salon-treatment-images/')){
+            $originalImage = $salonTreatment->image;
+            $salonTreatment->image = $this->checkIfImageisWebp($salonTreatment->image, '/images/salon-treatment-images/single-salon-treatment-images/');
+            Storage::delete('/images/salon-treatment-images/single-salon-treatment-images/'.$originalImage);
         }
         $salonTreatment->save();
         return response()->json(['salonTreatment' => $salonTreatment]);
@@ -287,6 +291,11 @@ class AdminController extends Controller
             $trainingCourse->image = $this->imageUpdate($request->newImage, '/images/training-course-images/');
             $trainingCourse->save();
             return response()->json(['trainingCourse' => $trainingCourse]);
+        }
+        if($this->checkIfImageisWebp($trainingCourse->image, '/images/training-course-images/')){
+            $originalImage = $trainingCourse->image;
+            $trainingCourse->image = $this->checkIfImageisWebp($trainingCourse->image, '/images/training-course-images/');
+            Storage::delete('/public/images/training-course-images/'.$originalImage);
         }
         $trainingCourse->extras = $request->extras;
         $trainingCourse->save();
@@ -353,6 +362,35 @@ class AdminController extends Controller
         Mail::to($pendingGiftVoucher['email'])->send(new ApprovedVoucher($pendingGiftVoucher));
     }
 
+    private function checkIfImageisWebp($image, $fileLocation) {
+        $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
+        $originalImage = $storagePath.$fileLocation.$image;
+        $info = pathinfo($storagePath.$fileLocation.$image);
+        if ($info["extension"] != "webp") {
+            \Tinify\setKey("gpYyPbcWHr93Cjtx9rm87xV2pMDrpch6");
+
+            $filename = pathinfo($storagePath.$fileLocation.$image, PATHINFO_FILENAME);
+            $newFileName = $filename.'.webp';
+            $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
+            $image = imagecreatefromstring(file_get_contents($storagePath.$fileLocation.$image));
+            ob_start();
+            imagejpeg($image,NULL,100);
+            $cont = ob_get_contents();
+            ob_end_clean();
+            imagedestroy($image);
+            $content = imagecreatefromstring($cont);
+            $output = $storagePath.$fileLocation.$newFileName;
+            imagewebp($content,$output,100);
+            imagedestroy($content);
+            
+            $source = \Tinify\fromFile($output);
+            $source->toFile($storagePath.$fileLocation.$newFileName);
+            return $newFileName;
+        } else {
+            return false;
+        }
+    }
+
     private function imageUpdate($image, $fileLocation){
             \Tinify\setKey("gpYyPbcWHr93Cjtx9rm87xV2pMDrpch6");
 
@@ -367,11 +405,11 @@ class AdminController extends Controller
             imagedestroy($image);
             $content = imagecreatefromstring($cont);
             $output = $storagePath.$fileLocation.$newFileName;
-            imagewebp($content,$output);
+            imagewebp($content,$output,100);
             imagedestroy($content);
             
             $source = \Tinify\fromFile($output);
-            $source->toFile($storagePath.$fileLocation.$filename);
+            $source->toFile($storagePath.$fileLocation.$newFileName);
             return $newFileName;
     }
 }
