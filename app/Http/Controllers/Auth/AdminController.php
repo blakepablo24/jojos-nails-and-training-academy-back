@@ -355,14 +355,23 @@ class AdminController extends Controller
 
     private function imageUpdate($image, $fileLocation){
             \Tinify\setKey("gpYyPbcWHr93Cjtx9rm87xV2pMDrpch6");
-        
-            $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
-            $filename = $image->getClientOriginalName();
 
-            $image->storeAs($fileLocation, $filename, 'public');
+            $filename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            $newFileName = $filename.'.webp';
+            $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
+            $image = imagecreatefromstring(file_get_contents($image));
+            ob_start();
+            imagejpeg($image,NULL,100);
+            $cont = ob_get_contents();
+            ob_end_clean();
+            imagedestroy($image);
+            $content = imagecreatefromstring($cont);
+            $output = $storagePath.$fileLocation.$newFileName;
+            imagewebp($content,$output);
+            imagedestroy($content);
             
-            $source = \Tinify\fromFile($storagePath.$fileLocation.$filename);
+            $source = \Tinify\fromFile($output);
             $source->toFile($storagePath.$fileLocation.$filename);
-            return $filename;
+            return $newFileName;
     }
 }
