@@ -236,20 +236,19 @@ class AdminController extends Controller
         $salonTreatment->duration = $request->duration;
         $salonTreatment->description = $request->description;
         if($request->newImage){
-
             if($salonTreatment->image){
                 Storage::delete('/public/images/salon-treatment-images/single-salon-treatment-images/'.$salonTreatment->image);
             }
-
             $salonTreatment->image = $this->imageUpdate($request->newImage, '/images/salon-treatment-images/single-salon-treatment-images/');
             $salonTreatment->save();
-
             return response()->json(['salonTreatment' => $salonTreatment]);
         }
-        if($this->checkIfImageisWebp($salonTreatment->image, '/images/salon-treatment-images/single-salon-treatment-images/')){
-            $originalImage = $salonTreatment->image;
-            $salonTreatment->image = $this->checkIfImageisWebp($salonTreatment->image, '/images/salon-treatment-images/single-salon-treatment-images/');
-            Storage::delete('/images/salon-treatment-images/single-salon-treatment-images/'.$originalImage);
+        if($salonTreatment->image){
+            if($this->checkIfImageisWebp($salonTreatment->image, '/images/salon-treatment-images/single-salon-treatment-images/')){
+                $originalImage = $salonTreatment->image;
+                $salonTreatment->image = $this->checkIfImageisWebp($salonTreatment->image, '/images/salon-treatment-images/single-salon-treatment-images/');
+                Storage::delete('/images/salon-treatment-images/single-salon-treatment-images/'.$originalImage);
+            }
         }
         $salonTreatment->save();
         return response()->json(['salonTreatment' => $salonTreatment]);
@@ -292,10 +291,12 @@ class AdminController extends Controller
             $trainingCourse->save();
             return response()->json(['trainingCourse' => $trainingCourse]);
         }
-        if($this->checkIfImageisWebp($trainingCourse->image, '/images/training-course-images/')){
-            $originalImage = $trainingCourse->image;
-            $trainingCourse->image = $this->checkIfImageisWebp($trainingCourse->image, '/images/training-course-images/');
-            Storage::delete('/public/images/training-course-images/'.$originalImage);
+        if($trainingCourse->image){
+            if($this->checkIfImageisWebp($trainingCourse->image, '/images/training-course-images/')){
+                $originalImage = $trainingCourse->image;
+                $trainingCourse->image = $this->checkIfImageisWebp($trainingCourse->image, '/images/training-course-images/');
+                Storage::delete('/public/images/training-course-images/'.$originalImage);
+            }
         }
         $trainingCourse->extras = $request->extras;
         $trainingCourse->save();
@@ -360,6 +361,25 @@ class AdminController extends Controller
         Storage::put('public/vouchers/'.$pendingGiftVoucher->id.'.pdf', $pdf->output());
 
         Mail::to($pendingGiftVoucher['email'])->send(new ApprovedVoucher($pendingGiftVoucher));
+    }
+
+    public function getFacebookReviews() {
+        $url = "https://graph.facebook.com/v12.0/me?fields=id%2Cname%2Coverall_star_rating%2Cpicture%7Burl%7D%2Crating_count%2Cratings%7Bcreated_time%2Creview_text%2Crating%2Creviewer%7Bid%2Cfirst_name%2Cprofile_pic%7D%7D&access_token=";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url.config('app.fbac'));
+        // SSL important
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        return $this -> response['response'] = json_decode($output);
+    }
+
+    public function getGAC() {
+        return config('app.gac');
     }
 
     private function checkIfImageisWebp($image, $fileLocation) {

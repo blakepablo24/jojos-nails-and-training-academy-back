@@ -23,6 +23,9 @@ Route::get('/single-salon-treatment/{id}', 'App\Http\Controllers\SalonTreatmentC
 Route::get('/single-salon-treatment/{id}', 'App\Http\Controllers\SalonTreatmentController@getSingletSalonTreatment');
 Route::post('/new-booking-enquiry', 'App\Http\Controllers\BookingEnquiryController@newBookingEnquiry');
 
+Route::get('/get-fbk', 'App\Http\Controllers\Auth\AdminController@getFacebookReviews');
+Route::get('/get-gac', 'App\Http\Controllers\Auth\AdminController@getGAC');
+
 // Must be logged in to access to these routes
 Route::middleware('auth:sanctum')->get('/admin-landing-page', 'App\Http\Controllers\Auth\AdminController@adminLandingPage');
 Route::middleware('auth:sanctum')->delete('/delete-single-salon-treatment/{id}', 'App\Http\Controllers\Auth\AdminController@deleteSalonTreatment');

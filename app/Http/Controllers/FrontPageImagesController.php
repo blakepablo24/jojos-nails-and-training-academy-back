@@ -17,6 +17,5 @@ class FrontPageImagesController extends Controller
             'db_images' => $frontPageImages,
             'large_db_images' => $largeFrontPageImages
         ]);
-
     }
 }
