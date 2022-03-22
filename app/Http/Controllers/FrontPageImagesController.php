@@ -1,21 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
 use App\Models\FrontPageImages;
 
 class FrontPageImagesController extends Controller
 {
     public function getFrontPageImages(){
+        $fPImages = [];
+        $largeFPImages = [];
 
         $allFrontPageImages = FrontPageImages::all();
-        $frontPageImages = FrontPageImages::where('orientation', 'portrait')->get();
-        $largeFrontPageImages = FrontPageImages::where('orientation', 'landscape')->get();
+        foreach ($allFrontPageImages as $key => $image) {
+            if($image->orientation === "landscape"){
+                array_push($largeFPImages, $image->image);
+            } else {
+                array_push($fPImages, $image->image);
+            }
+        }
 
         return response()->json([
-            'all_db_images' => $allFrontPageImages,
-            'db_images' => $frontPageImages,
-            'large_db_images' => $largeFrontPageImages
+            'fPImages' => $fPImages,
+            'largeFPImages' => $largeFPImages
         ]);
     }
 }
