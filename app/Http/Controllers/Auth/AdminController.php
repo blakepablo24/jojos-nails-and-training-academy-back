@@ -355,13 +355,13 @@ class AdminController extends Controller
     public function approvePendingGiftVoucher($id) {
         $pendingGiftVoucher = GiftVouchers::find($id);
         $pendingGiftVoucher->pending = false;
-        $pendingGiftVoucher->expiry_date = date('m-d-Y', strtotime('+1 year'));
-        $pendingGiftVoucher->save();
+        $pendingGiftVoucher->expiry_date = date('d-m-Y', strtotime('+1 year'));
+        // $pendingGiftVoucher->save();
 
         $pdf = PDF::loadView('approved-voucher-to-pdf', $pendingGiftVoucher)->setPaper('a4', 'landscape');
-        Storage::put('public/vouchers/'.$pendingGiftVoucher->id.'.pdf', $pdf->output());
+        Storage::put('public/vouchers/'.$pendingGiftVoucher->name." - ".$pendingGiftVoucher->id.'.pdf', $pdf->output());
 
-        Mail::to($pendingGiftVoucher['email'])->send(new ApprovedVoucher($pendingGiftVoucher));
+        // Mail::to($pendingGiftVoucher['email'])->send(new ApprovedVoucher($pendingGiftVoucher));
     }
 
     public function getFacebookReviews() {
