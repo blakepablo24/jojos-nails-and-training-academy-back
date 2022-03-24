@@ -355,6 +355,7 @@ class AdminController extends Controller
     public function approvePendingGiftVoucher($id) {
         $pendingGiftVoucher = GiftVouchers::find($id);
         $pendingGiftVoucher->pending = false;
+        $pendingGiftVoucher->expiry_date = date('m-d-Y', strtotime('+1 year'));
         $pendingGiftVoucher->save();
 
         $pdf = PDF::loadView('approved-voucher-to-pdf', $pendingGiftVoucher)->setPaper('a4', 'landscape');
