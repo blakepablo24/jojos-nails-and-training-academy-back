@@ -430,6 +430,12 @@ class AdminController extends Controller
             imagedestroy($content);
             
             $source = \Tinify\fromFile($output);
+            $resized = $source->resize(array(
+                "method" => "fit",
+                "width" => 500,
+                "height" => 500
+            ));
+            $resized->toFile($storagePath.$fileLocation.'small-'.$newFileName);
             $source->toFile($storagePath.$fileLocation.$newFileName);
             return $newFileName;
     }
