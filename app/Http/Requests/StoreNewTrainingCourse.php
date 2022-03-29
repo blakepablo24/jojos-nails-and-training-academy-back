@@ -29,7 +29,7 @@ class StoreNewTrainingCourse extends FormRequest
             'duration' => 'required|string',
             'extras' => 'nullable|string',
             'teacher_student_ratio' => 'required|string',
-            'newImage' => 'required|image|mimes:jpeg,jpg,png|max:5000'
+            'newImage' => 'required|image|mimes:jpeg,jpg,png,webp|max:5000'
         ];
     }
 

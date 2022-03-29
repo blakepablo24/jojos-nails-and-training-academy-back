@@ -31,7 +31,7 @@ class StoreEditedTrainingCourse extends FormRequest
             'duration' => 'required|string',
             'teacher_student_ratio' => 'required|string',
             'extras' => 'nullable|string',
-            'newImage' => 'image|mimes:jpeg,jpg,png|max:5000'
+            'newImage' => 'image|mimes:jpeg,jpg,png,webp|max:5000'
         ];
     }
 

@@ -26,7 +26,7 @@ class StoreEditedSalonTreatmentCategoryImage extends FormRequest
     {
         return [
             'id' => 'required|integer',
-            'newImage' => 'required|image|mimes:jpeg,jpg,png|max:5000'
+            'newImage' => 'required|image|mimes:jpeg,jpg,png,webp|max:5000'
         ];
     }
 

@@ -25,7 +25,7 @@ class StoreNewFrontPageImage extends FormRequest
     public function rules()
     {
         return [
-            'newImage' => 'image|mimes:jpeg,jpg,png|max:5000'
+            'newImage' => 'image|mimes:jpeg,jpg,png,webp|max:5000'
         ];
     }
 
