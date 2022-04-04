@@ -238,6 +238,7 @@ class AdminController extends Controller
         if($request->newImage){
             if($salonTreatment->image){
                 Storage::delete('/public/images/salon-treatment-images/single-salon-treatment-images/'.$salonTreatment->image);
+                Storage::delete('/public/images/salon-treatment-images/single-salon-treatment-images/-small'.$salonTreatment->image);
             }
             $salonTreatment->image = $this->imageUpdate($request->newImage, '/images/salon-treatment-images/single-salon-treatment-images/');
             $salonTreatment->save();
@@ -248,6 +249,7 @@ class AdminController extends Controller
                 $originalImage = $salonTreatment->image;
                 $salonTreatment->image = $this->checkIfImageisWebp($salonTreatment->image, '/images/salon-treatment-images/single-salon-treatment-images/');
                 Storage::delete('/images/salon-treatment-images/single-salon-treatment-images/'.$originalImage);
+                Storage::delete('/images/salon-treatment-images/single-salon-treatment-images/-small'.$originalImage);
             }
         }
         $salonTreatment->save();
@@ -257,6 +259,7 @@ class AdminController extends Controller
     public function deleteSalonTreatmentImage($id) {
         $salonTreatment = SingleSalonTreatment::find($id);
         Storage::delete('/public/images/salon-treatment-images/single-salon-treatment-images/'.$salonTreatment->image);
+        Storage::delete('/public/images/salon-treatment-images/single-salon-treatment-images/-small'.$salonTreatment->image);
         $salonTreatment->image = "";
         $salonTreatment->save();
 
@@ -286,6 +289,7 @@ class AdminController extends Controller
         if($request->newImage){
             if($trainingCourse->image){
                 Storage::delete('/public/images/training-course-images/'.$trainingCourse->image);
+                Storage::delete('/public/images/training-course-images/-small'.$trainingCourse->image);
             }
             $trainingCourse->image = $this->imageUpdate($request->newImage, '/images/training-course-images/');
             $trainingCourse->save();
@@ -296,6 +300,7 @@ class AdminController extends Controller
                 $originalImage = $trainingCourse->image;
                 $trainingCourse->image = $this->checkIfImageisWebp($trainingCourse->image, '/images/training-course-images/');
                 Storage::delete('/public/images/training-course-images/'.$originalImage);
+                Storage::delete('/public/images/training-course-images/-small'.$originalImage);
             }
         }
         $trainingCourse->extras = $request->extras;
@@ -307,6 +312,7 @@ class AdminController extends Controller
 
         $trainingCourse = TrainingCourse::find($id);
         Storage::delete('/public/images/training-course-images/'.$trainingCourse->image);
+        Storage::delete('/public/images/training-course-images/small-'.$trainingCourse->image);
         $trainingCourse->image = "";
         $trainingCourse->save();
 
@@ -315,6 +321,7 @@ class AdminController extends Controller
 
     public function deleteFrontPageImage($id){
         $frontPageImage = FrontPageImages::find($id);
+        Storage::delete('/public/images/front-page-images/landing-page-images/'.$frontPageImage->image);
         Storage::delete('/public/images/front-page-images/landing-page-images/'.$frontPageImage->image);
         $frontPageImage->delete();
     }

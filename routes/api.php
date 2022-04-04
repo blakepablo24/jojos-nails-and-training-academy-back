@@ -20,7 +20,6 @@ Route::get('/all-salon-treatments', 'App\Http\Controllers\SalonTreatmentControll
 Route::get('/salon-treatments-sub-cat/{id}', 'App\Http\Controllers\SalonTreatmentController@getSubCatSalonTreatments');
 Route::get('/single-salon-treatment/{id}', 'App\Http\Controllers\SalonTreatmentController@getSingletSalonTreatment');
 
-Route::get('/single-salon-treatment/{id}', 'App\Http\Controllers\SalonTreatmentController@getSingletSalonTreatment');
 Route::post('/new-booking-enquiry', 'App\Http\Controllers\BookingEnquiryController@newBookingEnquiry');
 
 Route::get('/get-fbk', 'App\Http\Controllers\Auth\AdminController@getFacebookReviews');
