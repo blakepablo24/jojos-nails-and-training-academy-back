@@ -23,4 +23,13 @@ class FrontPageImagesController extends Controller
             'largeFPImages' => $largeFPImages
         ]);
     }
+    
+    public function getAllFrontPageImages(){
+
+        $allFrontPageImages = FrontPageImages::all();
+
+        return response()->json([
+            'all_db_images' => $allFrontPageImages
+        ]);
+    }
 }

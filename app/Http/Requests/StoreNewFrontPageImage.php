@@ -25,7 +25,7 @@ class StoreNewFrontPageImage extends FormRequest
     public function rules()
     {
         return [
-            'newImage' => 'image|mimes:jpeg,jpg,png,webp|max:5000'
+            'newImage' => 'image|mimes:jpeg,jpg,png,webp|max:10000'
         ];
     }
 
@@ -33,7 +33,7 @@ class StoreNewFrontPageImage extends FormRequest
         return [
             'newImage.image' => 'Your uploaded file can only be of image type ',
             'newImage.mimes' => 'Image must be of jpeg, jpg or png format ',
-            'newImage.max' => 'The image maximum size is 5MB! Please choose a smaller sized image.'
+            'newImage.max' => 'The image maximum size is 10MB! Please choose a smaller sized image.'
         ];
     }
 

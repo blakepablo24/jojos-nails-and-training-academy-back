@@ -49,3 +49,4 @@ Route::middleware('auth:sanctum')->post('/approve-pending-gift-voucher/{id}', 'A
 Route::middleware('auth:sanctum')->delete('/delete-front-page-image/{id}', 'App\Http\Controllers\Auth\AdminController@deleteFrontPageImage');
 Route::middleware('auth:sanctum')->post('/add-new-front-page-image', 'App\Http\Controllers\Auth\AdminController@addNewFrontPageImage');
 Route::middleware('auth:sanctum')->post('/admin-change-password', 'App\Http\Controllers\Auth\AdminController@adminChangePassword');
+Route::middleware('auth:sanctum')->get('/get-all-front-page-images', 'App\Http\Controllers\FrontPageImagesController@getAllFrontPageImages');

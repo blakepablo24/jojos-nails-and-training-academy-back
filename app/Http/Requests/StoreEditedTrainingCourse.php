@@ -31,7 +31,7 @@ class StoreEditedTrainingCourse extends FormRequest
             'duration' => 'required|string',
             'teacher_student_ratio' => 'required|string',
             'extras' => 'nullable|string',
-            'newImage' => 'image|mimes:jpeg,jpg,png,webp|max:5000'
+            'newImage' => 'image|mimes:jpeg,jpg,png,webp|max:10000'
         ];
     }
 
@@ -39,7 +39,7 @@ class StoreEditedTrainingCourse extends FormRequest
         return [
             'newImage.image' => 'Your uploaded file can only be of image type ',
             'newImage.mimes' => 'Image must be of jpeg, jpg or png format ',
-            'newImage.max' => 'The image maximum size is 5MB! Please choose a smaller sized image.'
+            'newImage.max' => 'The image maximum size is 10MB! Please choose a smaller sized image.'
         ];
     }
 
