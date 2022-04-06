@@ -244,14 +244,6 @@ class AdminController extends Controller
             $salonTreatment->save();
             return response()->json(['salonTreatment' => $salonTreatment]);
         }
-        if($salonTreatment->image){
-            if($this->checkIfImageisWebp($salonTreatment->image, '/images/salon-treatment-images/single-salon-treatment-images/')){
-                $originalImage = $salonTreatment->image;
-                $salonTreatment->image = $this->checkIfImageisWebp($salonTreatment->image, '/images/salon-treatment-images/single-salon-treatment-images/');
-                Storage::delete('/images/salon-treatment-images/single-salon-treatment-images/'.$originalImage);
-                Storage::delete('/images/salon-treatment-images/single-salon-treatment-images/-small'.$originalImage);
-            }
-        }
         $salonTreatment->save();
         return response()->json(['salonTreatment' => $salonTreatment]);
     }
@@ -295,14 +287,6 @@ class AdminController extends Controller
             $trainingCourse->save();
             return response()->json(['trainingCourse' => $trainingCourse]);
         }
-        if($trainingCourse->image){
-            if($this->checkIfImageisWebp($trainingCourse->image, '/images/training-course-images/')){
-                $originalImage = $trainingCourse->image;
-                $trainingCourse->image = $this->checkIfImageisWebp($trainingCourse->image, '/images/training-course-images/');
-                Storage::delete('/public/images/training-course-images/'.$originalImage);
-                Storage::delete('/public/images/training-course-images/-small'.$originalImage);
-            }
-        }
         $trainingCourse->extras = $request->extras;
         $trainingCourse->save();
         return response()->json(['trainingCourse' => $trainingCourse]);
@@ -322,7 +306,7 @@ class AdminController extends Controller
     public function deleteFrontPageImage($id){
         $frontPageImage = FrontPageImages::find($id);
         Storage::delete('/public/images/front-page-images/landing-page-images/'.$frontPageImage->image);
-        Storage::delete('/public/images/front-page-images/landing-page-images/'.$frontPageImage->image);
+        Storage::delete('/public/images/front-page-images/landing-page-images/small-'.$frontPageImage->image);
         $frontPageImage->delete();
     }
 
@@ -388,35 +372,6 @@ class AdminController extends Controller
 
     public function getGAC() {
         return config('app.gac');
-    }
-
-    private function checkIfImageisWebp($image, $fileLocation) {
-        $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
-        $originalImage = $storagePath.$fileLocation.$image;
-        $info = pathinfo($storagePath.$fileLocation.$image);
-        if ($info["extension"] != "webp") {
-            \Tinify\setKey("gpYyPbcWHr93Cjtx9rm87xV2pMDrpch6");
-
-            $filename = pathinfo($storagePath.$fileLocation.$image, PATHINFO_FILENAME);
-            $newFileName = $filename.'.webp';
-            $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
-            $image = imagecreatefromstring(file_get_contents($storagePath.$fileLocation.$image));
-            ob_start();
-            imagejpeg($image,NULL,100);
-            $cont = ob_get_contents();
-            ob_end_clean();
-            imagedestroy($image);
-            $content = imagecreatefromstring($cont);
-            $output = $storagePath.$fileLocation.$newFileName;
-            imagewebp($content,$output,100);
-            imagedestroy($content);
-            
-            $source = \Tinify\fromFile($output);
-            $source->toFile($storagePath.$fileLocation.$newFileName);
-            return $newFileName;
-        } else {
-            return false;
-        }
     }
 
     private function imageUpdate($image, $fileLocation){
