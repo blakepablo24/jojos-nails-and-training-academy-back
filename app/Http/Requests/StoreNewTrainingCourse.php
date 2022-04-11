@@ -29,13 +29,12 @@ class StoreNewTrainingCourse extends FormRequest
             'duration' => 'required|string',
             'extras' => 'nullable|string',
             'teacher_student_ratio' => 'required|string',
-            'newImage' => 'required|image|mimes:jpeg,jpg,png,webp|max:10000'
+            'newImage' => 'image|mimes:jpeg,jpg,png,webp|max:10000'
         ];
     }
 
     public function messages() {
         return [
-            'newImage.required' => 'An Image is required! ',
             'newImage.image' => 'Your uploaded file can only be of image type ',
             'newImage.mimes' => 'Image must be of jpeg, jpg or png format ',
             'newImage.max' => 'The image maximum size is 10MB! Please choose a smaller sized image.'

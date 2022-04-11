@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEnquiryDetailsTable extends Migration
+class AddNullableExpiryDateToGiftVouchersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateEnquiryDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('enquiry_details', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('number');
-            $table->timestamps();
+        Schema::table('gift_vouchers', function (Blueprint $table) {
+            $table->string('expiry_date')->default("")->nullable()->change();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateEnquiryDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('enquiry_details');
+        Schema::table('gift_vouchers', function (Blueprint $table) {
+            $table->string('expiry_date')->default("")->nullable()->change();
+        });
     }
 }

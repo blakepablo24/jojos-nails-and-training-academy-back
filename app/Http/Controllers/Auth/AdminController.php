@@ -185,13 +185,18 @@ class AdminController extends Controller
         $newTrainingCourse->duration = $request->duration;
         $newTrainingCourse->teacher_student_ratio = $request->teacher_student_ratio;
         $newTrainingCourse->start_time = "10am";
-        if($request->duration === "Half Day") {
-            $newTrainingCourse->end_time = "1pm";
+            if($request->duration === "Half Day") {
+                $newTrainingCourse->end_time = "1pm";
+            } else {
+                $newTrainingCourse->end_time = "4pm";
+            }
+        $newTrainingCourse->extras = $request->extras;
+        $newTrainingCourse->prerequisites = $request->prerequisites;
+        if($request->newImage){
+            $newTrainingCourse->image = $this->imageUpdate($request->newImage, '/images/training-course-images/');
         } else {
-            $newTrainingCourse->end_time = "4pm";
+            $newTrainingCourse->image = "";
         }
-
-        $newTrainingCourse->image = $this->imageUpdate($request->newImage, '/images/training-course-images/');
         $newTrainingCourse->save();
 
         return response()->json(['newTrainingCourse' => $newTrainingCourse]);
