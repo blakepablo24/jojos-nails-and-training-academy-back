@@ -24,7 +24,7 @@ class ApprovedVoucher extends Mailable
     {
         $this->request = $request;
         $this->imageToEmbed = storage_path('public/images/front-page-images/jojos-nails-logo-drkr1.png');
-        $this->voucherPdf = '/public/vouchers/'.$request->id.'.pdf';
+        $this->voucherPdf = '/public/vouchers/'.$request->name." - ".$request->id.'.pdf';
     }
 
     /**
