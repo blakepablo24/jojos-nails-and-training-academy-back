@@ -277,6 +277,7 @@ class AdminController extends Controller
         $trainingCourse->price = $request->price;
         $trainingCourse->duration = $request->duration;
         $trainingCourse->teacher_student_ratio = $request->teacher_student_ratio;
+        $trainingCourse->prerequisites = $request->prerequisites;
         $trainingCourse->start_time = "10am";
         if($request->duration === "Half Day") {
             $trainingCourse->end_time = "1pm";
