@@ -83,6 +83,7 @@ class AdminController extends Controller
 
         if($treatmentToDelete->image){
             Storage::delete('/public/images/salon-treatment-images/single-salon-treatment-images/'.$treatmentToDelete->image);
+            Storage::delete('/public/images/salon-treatment-images/single-salon-treatment-images/-small'.$treatmentToDelete->image);
         }
 
         $treatmentToDelete->delete();
@@ -97,6 +98,7 @@ class AdminController extends Controller
 
         if($courseToDelete->image){
             Storage::delete('/public/images/training-course-images/'.$courseToDelete->image);
+            Storage::delete('/public/images/training-course-images/-small'.$courseToDelete->image);
         }
 
         $courseToDelete->delete();
@@ -115,13 +117,13 @@ class AdminController extends Controller
 
         $newSalonTreatment =  new SingleSalonTreatment;
         $newSalonTreatment->category = $request->category;
-        $newSalonTreatment->title = $request->title;
+        $newSalonTreatment->title = ucwords($request->title);
         $newSalonTreatment->price = $request->price;
         $newSalonTreatment->duration = $request->duration;
-        $newSalonTreatment->description = $request->description;
+        $newSalonTreatment->description = ucfirst($request->description);
 
         if($request->newImage){
-            $newSalonTreatment->image = $this->imageUpdate($request->newImage, '/images/salon-treatment-images/single-salon-treatment-images/');
+            $newSalonTreatment->image = $this->imageUpdate($request->newImage, '/images/salon-treatment-images/single-salon-treatment-images/', ucwords($request->title));
         } else {
             $newSalonTreatment->image = "";
         }
@@ -139,13 +141,13 @@ class AdminController extends Controller
                 $salonTreatmentCategory = SalonTreatment::find($category["id"]);
 
                 if($category["title"] != $salonTreatmentCategory->title){
-                    $salonTreatmentCategory->title = $category["title"];
+                    $salonTreatmentCategory->title = ucwords($category["title"]);
                     $salonTreatmentCategory->save();
                 }
                 $firstMessage = "edited";
             } else {
                 $newSalonTreatmentCategory = new SalonTreatment;
-                $newSalonTreatmentCategory->title = $category["title"];
+                $newSalonTreatmentCategory->title = ucwords($category["title"]);
                 $newSalonTreatmentCategory->image = $category["image"];
                 $newSalonTreatmentCategory->save();
 
@@ -160,18 +162,19 @@ class AdminController extends Controller
         $salonTreatmentCategory = SalonTreatment::find($request->id);
         if($salonTreatmentCategory->image != "default"){
             Storage::delete('/public/images/salon-treatment-images/'.$salonTreatmentCategory->image);
+            Storage::delete('/public/images/salon-treatment-images/-small'.$salonTreatmentCategory->image);
         }
-        $salonTreatmentCategory->image = $this->imageUpdate($request->newImage, '/images/salon-treatment-images/');
+        $salonTreatmentCategory->image = $this->imageUpdate($request->newImage, '/images/salon-treatment-images/', $salonTreatmentCategory->title);
         $salonTreatmentCategory->save();
 
         return $salonTreatmentCategory;
-
     }
 
     public function deleteSalonTreatmentCategory($id){
         $salonTreatmentCategory = SalonTreatment::find($id);
         if($salonTreatmentCategory->image != "default"){
             Storage::delete('/public/images/salon-treatment-images/'.$salonTreatmentCategory->image);
+            Storage::delete('/public/images/salon-treatment-images/-small'.$salonTreatmentCategory->image);
         }
         $salonTreatmentCategory->image = "";
         $salonTreatmentCategory->delete();
@@ -180,7 +183,7 @@ class AdminController extends Controller
     public function newTrainingCourse(StoreNewTrainingCourse $request) {
 
         $newTrainingCourse =  new TrainingCourse;
-        $newTrainingCourse->title = $request->title;
+        $newTrainingCourse->title = ucwords($request->title);
         $newTrainingCourse->price = $request->price;
         $newTrainingCourse->duration = $request->duration;
         $newTrainingCourse->teacher_student_ratio = $request->teacher_student_ratio;
@@ -190,10 +193,10 @@ class AdminController extends Controller
             } else {
                 $newTrainingCourse->end_time = "4pm";
             }
-        $newTrainingCourse->extras = $request->extras;
-        $newTrainingCourse->prerequisites = $request->prerequisites;
+        $newTrainingCourse->extras = ucfirst($request->extras);
+        $newTrainingCourse->prerequisites = ucwords($request->prerequisites);
         if($request->newImage){
-            $newTrainingCourse->image = $this->imageUpdate($request->newImage, '/images/training-course-images/');
+            $newTrainingCourse->image = $this->imageUpdate($request->newImage, '/images/training-course-images/', ucwords($request->title));
         } else {
             $newTrainingCourse->image = "";
         }
@@ -236,16 +239,16 @@ class AdminController extends Controller
 
         $salonTreatment = SingleSalonTreatment::find($request->id);
         $salonTreatment->category = $request->category;
-        $salonTreatment->title = $request->title;
+        $salonTreatment->title = ucwords($request->title);
         $salonTreatment->price = $request->price;
         $salonTreatment->duration = $request->duration;
-        $salonTreatment->description = $request->description;
+        $salonTreatment->description = ucfirst($request->description);
         if($request->newImage){
             if($salonTreatment->image){
                 Storage::delete('/public/images/salon-treatment-images/single-salon-treatment-images/'.$salonTreatment->image);
                 Storage::delete('/public/images/salon-treatment-images/single-salon-treatment-images/-small'.$salonTreatment->image);
             }
-            $salonTreatment->image = $this->imageUpdate($request->newImage, '/images/salon-treatment-images/single-salon-treatment-images/');
+            $salonTreatment->image = $this->imageUpdate($request->newImage, '/images/salon-treatment-images/single-salon-treatment-images/', ucwords($request->title));
             $salonTreatment->save();
             return response()->json(['salonTreatment' => $salonTreatment]);
         }
@@ -273,12 +276,13 @@ class AdminController extends Controller
     public function updateTrainingCourse(StoreEditedTrainingCourse $request){
 
         $trainingCourse =  TrainingCourse::find($request->id);
-        $trainingCourse->title = $request->title;
+        $trainingCourse->title = ucwords($request->title);
         $trainingCourse->price = $request->price;
         $trainingCourse->duration = $request->duration;
         $trainingCourse->teacher_student_ratio = $request->teacher_student_ratio;
-        $trainingCourse->prerequisites = $request->prerequisites;
+        $trainingCourse->prerequisites = ucwords($request->prerequisites);
         $trainingCourse->start_time = "10am";
+        $trainingCourse->extras = ucfirst($request->extras);
         if($request->duration === "Half Day") {
             $trainingCourse->end_time = "1pm";
         } else {
@@ -289,11 +293,10 @@ class AdminController extends Controller
                 Storage::delete('/public/images/training-course-images/'.$trainingCourse->image);
                 Storage::delete('/public/images/training-course-images/-small'.$trainingCourse->image);
             }
-            $trainingCourse->image = $this->imageUpdate($request->newImage, '/images/training-course-images/');
+            $trainingCourse->image = $this->imageUpdate($request->newImage, '/images/training-course-images/', ucwords($request->title));
             $trainingCourse->save();
             return response()->json(['trainingCourse' => $trainingCourse]);
         }
-        $trainingCourse->extras = $request->extras;
         $trainingCourse->save();
         return response()->json(['trainingCourse' => $trainingCourse]);
     }
@@ -318,7 +321,7 @@ class AdminController extends Controller
 
     public function addNewFrontPageImage(StoreNewFrontPageImage $request){
         $frontPageImage = new FrontPageImages;
-        $frontPageImage->image = $this->imageUpdate($request->newImage, '/images/front-page-images/landing-page-images/');
+        $frontPageImage->image = $this->imageUpdate($request->newImage, '/images/front-page-images/landing-page-images/', "");
         $data = getimagesize($request->newImage);
         $width = $data[0];
         $height = $data[1];
@@ -380,10 +383,13 @@ class AdminController extends Controller
         return config('app.gac');
     }
 
-    private function imageUpdate($image, $fileLocation){
+    private function imageUpdate($image, $fileLocation, $name){
             \Tinify\setKey("gpYyPbcWHr93Cjtx9rm87xV2pMDrpch6");
 
             $filename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            if($name) {
+                $filename = $name;
+            }
             $newFileName = $filename.'.webp';
             $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
             $image = imagecreatefromstring(file_get_contents($image));
