@@ -62,7 +62,7 @@ class UserController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, true)) {
             // Authentication passed...
             $authuser = Auth::user('sanctum');
             if($authuser->email_verified_at){
