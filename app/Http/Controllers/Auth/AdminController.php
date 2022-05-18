@@ -18,14 +18,10 @@ use App\Http\Requests\StoreEditedTrainingCourse;
 use App\Http\Requests\StoreNewFrontPageImage;
 use App\Http\Requests\StoreUpdatedSalonTreatmentCategories;
 use App\Http\Requests\StoreEditedSalonTreatmentCategoryImage;
-use App\Http\Requests\Auth\StoreChangedPassword;
 use App\Models\FrontPageImages;
 use App\Models\Enquires;
-use App\Models\GiftVouchers;
 use App\Models\EnquiryDetails;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ApprovedVoucher;
-use PDF;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -62,19 +58,6 @@ class AdminController extends Controller
             'mostPopularTreatment' => $mostPopularTreatment,
             'mostPopularCourse' => $mostPopularCourse
             ]);
-    }
-
-    public function adminChangePassword(StoreChangedPassword $request){
-
-        $user = User::find($request->id);
-
-        if (Hash::check($request->current, $user->password)) {
-            $user->password = bcrypt($request->new);
-            $user->save();
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public function deleteSalonTreatment($id){
@@ -331,37 +314,6 @@ class AdminController extends Controller
             $frontPageImage->orientation = "portrait";
         }
         $frontPageImage->save();
-    }
-
-    public function getAllGiftVouchers(){
-
-        $pendingGiftVouchers = GiftVouchers::where('pending', true)->get();
-        $unRedeemedGiftVouchers = GiftVouchers::where('pending', false)->where('redeemed', false)->get();
-        $redeemedGiftVouchers = GiftVouchers::where('pending', false)->where('redeemed', true)->get();
-
-
-        return response()->json([
-            'pending' => ['vouchers' => $pendingGiftVouchers, 'title' => 'pending'],
-            'unredeemed' => ['vouchers' => $unRedeemedGiftVouchers, 'title' => 'unredeemed'],
-            'redeemed' => ['vouchers' => $redeemedGiftVouchers, 'title' => 'redeemed']
-        ]);
-    }
-
-    public function deletePendingGiftVoucher($id) {
-        $pendingGiftVoucher = GiftVouchers::find($id);
-        $pendingGiftVoucher->delete();
-    }
-
-    public function approvePendingGiftVoucher($id) {
-        $pendingGiftVoucher = GiftVouchers::find($id);
-        $pendingGiftVoucher->pending = false;
-        $pendingGiftVoucher->expiry_date = date('d-m-Y', strtotime('+1 year'));
-        // $pendingGiftVoucher->save();
-
-        $pdf = PDF::loadView('approved-voucher-to-pdf', $pendingGiftVoucher)->setPaper('a4', 'landscape');
-        Storage::put('public/vouchers/'.$pendingGiftVoucher->name." - ".$pendingGiftVoucher->id.'.pdf', $pdf->output());
-
-        // Mail::to($pendingGiftVoucher['email'])->send(new ApprovedVoucher($pendingGiftVoucher));
     }
 
     public function getFacebookReviews() {
