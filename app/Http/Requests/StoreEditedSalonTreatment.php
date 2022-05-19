@@ -30,7 +30,7 @@ class StoreEditedSalonTreatment extends FormRequest
             'title' => 'required|string',
             'price' => 'required|numeric|between:0,999.99',
             'duration' => 'required|integer',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'newImage' => 'image|mimes:jpeg,jpg,png,webp|max:10000'
         ];
     }
