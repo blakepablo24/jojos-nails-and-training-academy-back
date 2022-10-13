@@ -26,8 +26,8 @@ class StoreNewTrainingCourse extends FormRequest
         return [
             'title' => 'required|string',
             'price' => 'required|numeric|between:0,999.99',
-            'duration' => 'required|string',
-            'extras' => 'nullable|string',
+            'duration' => 'required',
+            'extras' => 'nullable',
             'teacher_student_ratio' => 'required|string',
             'newImage' => 'image|mimes:jpeg,jpg,png,webp|max:10000'
         ];
