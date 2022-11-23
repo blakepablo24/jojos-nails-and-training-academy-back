@@ -25,11 +25,17 @@ Route::get('/all-salon-treatments', 'App\Http\Controllers\SalonTreatmentControll
 Route::get('/salon-treatments-sub-cat/{id}', 'App\Http\Controllers\SalonTreatmentController@getSubCatSalonTreatments');
 Route::get('/single-salon-treatment/{id}', 'App\Http\Controllers\SalonTreatmentController@getSingletSalonTreatment');
 
+// New Booking Request
+
 Route::post('/new-booking-enquiry', 'App\Http\Controllers\BookingEnquiryController@newBookingEnquiry');
 
 // Facebook Reviews
 Route::get('/get-fbk', 'App\Http\Controllers\ReviewController@getFacebookReviews');
 Route::get('/get-gac', 'App\Http\Controllers\ReviewController@getGAC');
+
+// Stripe Payment Link
+
+Route::post('/stripe-payment-intent', 'App\Http\Controllers\StripePaymentController@newStripePaymentIntent');
 
 // Must be logged in to access to these routes
 // Admin Landing page

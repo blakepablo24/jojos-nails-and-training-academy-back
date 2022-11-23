@@ -139,12 +139,13 @@ return [
     | Other keys
     |--------------------------------------------------------------------------
     |
-    | Key from FB, Google etc
+    | Keys from FB, Google and Stripe
     |
     */
 
     'fbac' => env('FB_ACCESS_CODE'),
     'gac' => env('GOOGLE_ACCESS_CODE'),
+    'stripe_sk' => env('STRIPE_SECRET_KEY'),
 
     'providers' => [
 
