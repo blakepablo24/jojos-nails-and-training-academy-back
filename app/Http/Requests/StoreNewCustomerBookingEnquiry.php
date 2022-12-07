@@ -32,7 +32,7 @@ class StoreNewCustomerBookingEnquiry extends FormRequest
             'email' => 'required|email',
             'number' => 'required|string',
             'time' => 'nullable|string',
-            'totalCost' => 'required|integer',
+            'totalCost' => 'required|numeric|between:0,9999.99',
             'TC' => 'boolean',
             'ST' => 'boolean',
             'gift_voucher' => 'boolean'
